@@ -1,5 +1,6 @@
 # Delivery-Area-Assignment-for-Shippers 
 ** Base on https://github.com/sonnv188/DP-FWD **
+
 The problem of assigning delivery zones to shippers based on three criteria: number of customers, number of orders, and level of familiarity.
 This repo stores instances of a variant of the Districting Problem motivated by a real-world application of an e-commerce smart logistics company in Vietnam.
 
