@@ -15,10 +15,8 @@ MOD = int(1e9 + 7)
 N = 50
 
 def Rand(l, r):
-    x = random.randint(0, int(1e18))
-    return x % (r - l + 1) + l
+    return random.randint(l,r)
 
-# Input
 n = p = m = 0
 adj = [[] for _ in range(MAX)]
 w = [[0, 0] for _ in range(MAX)]
@@ -62,7 +60,7 @@ def input_data():
     # ---- Đọc thông tin từng node ----
     for _ in range(n):
         toks = sys.stdin.readline().strip().split()
-        idx = int(toks[0])
+        idx = int(toks[0]) + 1    
         x_coord[idx] = float(toks[1])
         y_coord[idx] = float(toks[2])
         w[idx][0] = float(toks[3])  # customers
@@ -76,6 +74,8 @@ def input_data():
     # ---- Đọc cạnh ----
     for _ in range(l):
         a, b = map(int, sys.stdin.readline().strip().split())
+        a = a + 1
+        b = b + 1
         adj[a].append(b)
         adj[b].append(a)
 
@@ -435,9 +435,9 @@ def print_output(algorithm_name="local_search", iter_idx=0, running_time=0.0):
 
     # Header
     print("=========================================================================================================")
-    print("description line: instance_name algorithm_name iter_idx best_objective running_time")
+    print("instance_name - algorithm_name - iter_idx - best_objective - running_time")
     print("values :", instance_name, algorithm_name, iter_idx, f, running_time)
-    print("description line: nb_riders nb_polygons")
+    print("nb_riders - nb_polygons = ")
     print("values :", p, n)
 
     # Per rider
@@ -448,7 +448,7 @@ def print_output(algorithm_name="local_search", iter_idx=0, running_time=0.0):
         print(f"node list assigned to rider: rider {tid-1} = {{{nodes_str}}}")
         # stats line
         centroid_idx = p_centroid[tid]
-        print("description line: centroid - radius - orders - customers")
+        print("centroid - radius - orders - customers : ")
         # In absence of area / act_3, set to 0.0
         print("values :", centroid_idx, radius_per_tid[tid], act1[tid], act2[tid])
 
