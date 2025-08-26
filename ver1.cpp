@@ -55,9 +55,14 @@ void input(){
 		}
 	}
 }
-double meritfunction(double gamma = 1000,double beta = 500){
+double meritfunction(double k_weight = 0.5){
 	double f = 0;
-	for(int i = 1;i <= n;i++)f += d[i][p_centroid[territory[i]]];
+	double dmax = 0;
+	for(int i = 1;i <= n;i++){
+		dmax = max(dmax,d[i][p_centroid[territory[i]]]);
+		f += d[i][p_centroid[territory[i]]];
+	}
+	f /= dmax;
 	double g[2] = {0,0};
 	for(int ic = 0;ic <= 1;ic++){
 		for(int i = 1;i <= p;i++){
@@ -67,11 +72,12 @@ double meritfunction(double gamma = 1000,double beta = 500){
 			wsum[territory[i]][ic] += w[i][ic];
 		}
 		for(int i = 1;i <= p;i++){
-			g[ic] += max({wsum[i][ic] - (1 + t[ic]) * u[ic],(1 - t[ic]) * u[ic] - wsum[i][ic],0.0});
+			int x = max({wsum[i][ic] - (1 + t[ic]) * u[ic],(1 - t[ic]) * u[ic] - wsum[i][ic],0.0});
+			g[ic] += (u[ic] > 0) ? x / u[ic] : 0;
 		}
 	}
 	double g_ = g[0] + g[1];
-	return f + gamma * g_;
+	return f * k_weight + (1 - k_weight) * g_;
 }
 void location(){
 	
@@ -110,9 +116,9 @@ void location(){
 		territory[i] = res;
 	}
 	
-	for(int i = 1;i <= p;i++){
-		cout << p_centroid[i] << " \n"[i == p];
-	}
+	// for(int i = 1;i <= p;i++){
+		// cout << p_centroid[i] << " \n"[i == p];
+	// }
 	// Gán ngẫu nhiên p centroid
 	
 	int time_change = 0;
@@ -155,9 +161,9 @@ void location(){
 		cnt++;
 		if(!time_change || cnt > 100)break;
 	}
-	for(int i = 1;i <= p;i++){
-		cout << p_centroid[i] << " \n"[i == p];
-	}
+	// for(int i = 1;i <= p;i++){
+		// cout << p_centroid[i] << " \n"[i == p];
+	// }
 }
 
 /*
@@ -463,10 +469,21 @@ void local_search(double gamma = 1000.0,int limit_moves = 10000){
 
 void print_territories(){
 	rebuild_node_lists();
+	cout << "Accepted Range of orders for each territory : ";
+	cout << (1 - t[0]) * u[0] << " " << (1 + t[0]) * u[0] << '\n';
+	cout << "Accepted Range of customers for each territory : ";
+	cout << (1 - t[1]) * u[1] << " " << (1 + t[1]) * u[1] << '\n';
+	
 	for(int k = 1;k <= p;k++){
 		cout << "Centroid " << k << " at node " << p_centroid[k] << ": ";
-		for(int v : node[k]) cout << v << " ";
-		cout << "\n";
+		int w_0 = 0;
+		int w_1 = 0;
+		for(int v : node[k]){
+			cout << v << " ";
+			w_0 += w[v][0];
+			w_1 += w[v][1];
+ 		}
+		cout << "\n Orders = " << w_0 << "   Customers = " << w_1 << "\n"; 
 	}
 	cout << meritfunction();
 }
