@@ -517,11 +517,12 @@ void local_search(double gamma = 0.5,int limit_moves = 10000){
 
 void print_territories(){
 	rebuild_node_lists();
+	for(int k = 1;k <= p;k++)
+		if(!connected(k))return void(cout << "FAILLLLLLLLLLLLLLLLLLLL!");
 	cout << "Accepted Range of orders for each territory : ";
 	cout << (1 - t[0]) * u[0] << " " << (1 + t[0]) * u[0] << '\n';
 	cout << "Accepted Range of customers for each territory : ";
 	cout << (1 - t[1]) * u[1] << " " << (1 + t[1]) * u[1] << '\n';
-	
 	for(int k = 1;k <= p;k++){
 		cout << "Centroid " << k << " at node " << p_centroid[k] << ": ";
 		int w_0 = 0;
@@ -531,7 +532,7 @@ void print_territories(){
 			w_0 += w[v][0];
 			w_1 += w[v][1];
  		}
-		cout << "\n Orders = " << w_0 << "   Customers = " << w_1 << "\n"; 
+ 		cout << "\n Orders = " << w_0 << "   Customers = " << w_1 << "\n"; 
 	}
 	cout << meritfunction();
 }
