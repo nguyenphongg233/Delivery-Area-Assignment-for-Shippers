@@ -79,11 +79,13 @@ double meritfunction(double k_weight = 0.5){
 	double g_ = g[0] + g[1];
 	return f * k_weight + (1 - k_weight) * g_;
 }
-void location(){
+void location(int c = 23){
 	
 	vector<bool> choosen (n + 5,0);
 	int first = Rand(1, n);
-	first = min(23,n);
+	//first = 2;
+	first = c;
+	//cout << first << "\n";
 	p_centroid[1] = first;
 	choosen[first] = 1;
 	// k-means++
@@ -164,6 +166,7 @@ void location(){
 	// for(int i = 1;i <= p;i++){
 		// cout << p_centroid[i] << " \n"[i == p];
 	// }
+	// exit(0);
 }
 
 /*
@@ -321,6 +324,7 @@ bool remains_connected_after_remove(int k,int rem){
 }
 bool connected(int k){
 	vector<int> subset;
+	//cout << node[k].size() << "\n";
 	for(int v : node[k])subset.push_back(v);
 	if(subset.empty()) return 1;
 	queue<int> q;q.push(subset[0]);
@@ -338,11 +342,12 @@ int repair_connectivity(int x){
 	for(auto k : adj[x]){
 		if(territory[k] == territory[x]) continue;	
 		if(!remains_connected_after_remove(territory[x],x))continue;
-		if(connected(k))continue;
+		if(connected(territory[k]) || territory[k] > p || territory[k] < 1)continue;
 		int last = territory[x];
 		territory[x] = territory[k];
-		if(connected(k)){
-			return 1;
+		//cout << k << '\n';
+		if(connected(territory[k])){
+			return k;
 		}
 		territory[x] = last;
 	}
@@ -352,6 +357,18 @@ void allocation(){
 	auto sol0 = simplex_criterion(0);
 	auto sol1 = simplex_criterion(1);
 	vector<double> x0 = sol0.second,x1 = sol1.second;
+	// for(int i = 1;i <= p;i++){
+		// for(int j = 1;j <= n;j++){
+			// cout << x0[(i - 1) * n + (j - 1)] << " \n"[j == n];
+		// }
+	// }
+	// cout << "------\n";
+	// for(int i = 1;i <= p;i++){
+		// for(int j = 1;j <= n;j++){
+			// cout << x1[(i - 1) * n + (j - 1)] << " \n"[j == n];
+		// }
+	// }
+	// cout << "------\n";
 	for(int j = 1;j <= n;j++){
 		int bestk = 1;double bestv = -1;
 		for(int i = 1;i <= p;i++){
@@ -412,19 +429,46 @@ void allocation(){
 	
 	vector<int> split_nodes;
 	for(int j = 1;j <= n;j++) if(!cand[j].empty()) split_nodes.push_back(j);
-	vector<int> choosen(n + 5,0);
-	for(int i = 0;i < (int)split_nodes.size();i++){
-		int k = repair_connectivity(split_nodes[i]);
-		if(k == -1){
-			choosen.push_back(split_nodes[i]);
-			continue;
+	vector<int> choosen;
+	// cout << "Split_nodes = ";
+	// for(auto v : split_nodes)cout << v << " ";
+	// cout << '\n';
+	// for(int j = 1;j <= p;j++){
+		// if(!connected(j)){
+			// cout << j << " / " << p << " is not connected!\n";
+		// }
+	// }
+	for(int i = 1;i <= 100;i++){
+		if(split_nodes.empty())break;
+		bool ok = 1;
+		for(int j = 1;j <= p;j++){
+			if(!connected(j)){
+				ok = 0;
+				break;
+			}
 		}
-		territory[split_nodes[i]] = territory[k];
+		if(!ok)break;
+		for(int i = 0;i < (int)split_nodes.size();i++){
+			int k = repair_connectivity(split_nodes[i]);
+			if(k == -1){
+				choosen.push_back(split_nodes[i]);
+				continue;
+			}
+			//cout << k << " - " << territory[k] << '\n';
+			auto &vc = node[territory[split_nodes[i]]];
+			vc.erase(remove(vc.begin(),vc.end(),split_nodes[i]),vc.end());
+			node[territory[k]].push_back(split_nodes[i]);
+			territory[split_nodes[i]] = territory[k];
+		}	
+		rebuild_node_lists();
+		split_nodes = choosen;
+		choosen.clear();
 	}
+	//exit(0);
 	rebuild_node_lists();
-	split_nodes.clear();
 	split_nodes = choosen;
 	choosen.clear();
+	
 	for(int jj : split_nodes){
 		int cur = territory[jj];
 		if(cand[jj].empty()) continue;
@@ -515,10 +559,18 @@ void local_search(double gamma = 0.5,int limit_moves = 10000){
 	}
 }
 
-void print_territories(){
+bool print_territories(int c = 0){
 	rebuild_node_lists();
-	for(int k = 1;k <= p;k++)
-		if(!connected(k))return void(cout << "FAILLLLLLLLLLLLLLLLLLLL!");
+	if(!c)
+	for(int k = 1;k <= p;k++){
+		if(!connected(k)){
+			//cout << k << " / " << p << " is not connected!!!\n";
+			//cout << "FAILLLLLLLLLLLLLLLLLLLL!";
+			return 0;
+			// for debug
+			cout << k << " / " << p << " is not connected!!!\n";
+		}
+	}
 	cout << "Accepted Range of orders for each territory : ";
 	cout << (1 - t[0]) * u[0] << " " << (1 + t[0]) * u[0] << '\n';
 	cout << "Accepted Range of customers for each territory : ";
@@ -527,14 +579,19 @@ void print_territories(){
 		cout << "Centroid " << k << " at node " << p_centroid[k] << ": ";
 		int w_0 = 0;
 		int w_1 = 0;
+		double d_ = 0;
+		double radius = 0;
 		for(int v : node[k]){
 			cout << v << " ";
 			w_0 += w[v][0];
 			w_1 += w[v][1];
+			radius = max(radius,d[p_centroid[k]][v]);
+			d_ += d[p_centroid[k]][v];
  		}
- 		cout << "\n Orders = " << w_0 << "   Customers = " << w_1 << "\n"; 
+ 		cout << "\n1 - Orders \t= " << w_0 << "\n2 - Customers \t= " << w_1 << "\n3 - Radius \t= " << radius << "\n4 - Distant \t= " << d_ << '\n'; 
 	}
-	cout << meritfunction();
+	cout << meritfunction() << '\n';
+	return 1;
 }
 
 
@@ -543,9 +600,36 @@ signed main(){
 	
 	read();
 	input();
-	location();
+	
+	int bestk = 0;
+	double best_merit = INF;
+	for(int i = 1;i <= 10;i++){
+		location(Rand(1,n));
+		//print_territories();
+		allocation();
+		local_search();
+		// if(i % 10 == 1 && (i < 10 || i > 19))cout << i << "-st - attempt : ";
+		// else if(i % 10 == 2 && (i < 10 || i > 19))cout << i << "-nd - attempt : ";
+		// else if(i % 10 == 3 && (i < 10 || i > 19))cout << i << "-rd - attempt : ";
+		// else cout << i << "-th - attempt : ";
+		if(print_territories()){
+			if(i % 10 == 1 && (i < 10 || i > 19))cout << i << "-st - attempt : ";
+			else if(i % 10 == 2 && (i < 10 || i > 19))cout << i << "-nd - attempt : ";
+			else if(i % 10 == 3 && (i < 10 || i > 19))cout << i << "-rd - attempt : ";
+			else cout << i << "-th - attempt : ";
+			cout << "Success !\n";
+			return 0;
+		}
+		int u = meritfunction();
+		if(u < best_merit){
+			best_merit = u;
+			bestk = i;
+		}
+		//cout << "Fail !\n";
+		
+	}
+	location(bestk);
 	allocation();
 	local_search();
-	print_territories();
-	
+	print_territories(1);
 }
