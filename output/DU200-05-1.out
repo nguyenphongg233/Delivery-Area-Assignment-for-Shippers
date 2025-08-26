@@ -1,0 +1,68 @@
+Accepted Range of orders for each territory : 3719.32 4110.83
+Accepted Range of customers for each territory : 12123 13399
+Centroid 1 at node 180: 23 65 75 86 95 111 119 125 134 138 146 163 174 178 180 191 198 
+1 - Orders 	= 4263
+2 - Customers 	= 14272
+3 - Radius 	= 149.491
+4 - Distant 	= 1287.85
+Centroid 2 at node 52: 3 9 22 33 34 45 52 84 89 107 126 127 139 156 161 162 170 186 
+1 - Orders 	= 4806
+2 - Customers 	= 15581
+3 - Radius 	= 173.96
+4 - Distant 	= 1551.61
+Centroid 3 at node 20: 1 2 10 20 36 73 74 81 102 108 109 120 123 155 171 182 
+1 - Orders 	= 3956
+2 - Customers 	= 12771
+3 - Radius 	= 106.531
+4 - Distant 	= 889.136
+Centroid 4 at node 173: 13 43 50 55 59 63 68 87 88 124 153 166 173 
+1 - Orders 	= 3487
+2 - Customers 	= 11336
+3 - Radius 	= 285.803
+4 - Distant 	= 1177.45
+Centroid 5 at node 32: 5 8 14 32 46 57 60 98 99 115 140 147 177 188 195 
+1 - Orders 	= 3779
+2 - Customers 	= 12465
+3 - Radius 	= 130.164
+4 - Distant 	= 832.809
+Centroid 6 at node 94: 21 31 70 72 80 94 96 97 105 113 116 143 167 187 189 196 200 
+1 - Orders 	= 4298
+2 - Customers 	= 13860
+3 - Radius 	= 151.053
+4 - Distant 	= 939.187
+Centroid 7 at node 7: 7 26 66 67 77 90 92 122 132 141 149 159 181 190 194 
+1 - Orders 	= 3759
+2 - Customers 	= 12526
+3 - Radius 	= 114.324
+4 - Distant 	= 918.162
+Centroid 8 at node 160: 11 24 27 28 29 30 35 69 71 79 85 104 114 118 131 145 148 160 
+1 - Orders 	= 4605
+2 - Customers 	= 15216
+3 - Radius 	= 181.847
+4 - Distant 	= 1295.29
+Centroid 9 at node 169: 4 51 54 78 93 110 121 157 169 175 197 199 
+1 - Orders 	= 2945
+2 - Customers 	= 9442
+3 - Radius 	= 224
+4 - Distant 	= 1168.24
+Centroid 10 at node 128: 6 15 19 41 58 100 101 103 128 129 130 137 144 164 165 
+1 - Orders 	= 3785
+2 - Customers 	= 12195
+3 - Radius 	= 82.4304
+4 - Distant 	= 693.688
+Centroid 11 at node 17: 12 17 18 25 56 61 62 82 106 117 135 136 176 183 
+1 - Orders 	= 3612
+2 - Customers 	= 11680
+3 - Radius 	= 157.746
+4 - Distant 	= 863.916
+Centroid 12 at node 49: 16 49 64 83 112 142 151 152 154 158 168 172 179 184 
+1 - Orders 	= 3670
+2 - Customers 	= 11837
+3 - Radius 	= 232.156
+4 - Distant 	= 1291.52
+Centroid 13 at node 185: 37 38 39 40 42 44 47 48 53 76 91 133 150 185 192 193 
+1 - Orders 	= 3931
+2 - Customers 	= 12712
+3 - Radius 	= 193.121
+4 - Distant 	= 1259.67
+25.5039
