@@ -1,0 +1,33 @@
+Accepted Range of orders for each territory : 8113.95 8968.05
+Accepted Range of customers for each territory : 26440.2 29223.4
+Centroid 1 at node 17: 1 7 8 11 13 17 22 38 44 59 62 68 69 70 88 90 100 
+1 - Orders 	= 8669
+2 - Customers 	= 28384
+3 - Radius 	= 154.058
+4 - Distant 	= 1239.98
+Centroid 2 at node 43: 2 6 16 25 29 32 35 41 43 51 67 71 72 76 83 84 97 
+1 - Orders 	= 8746
+2 - Customers 	= 28537
+3 - Radius 	= 146.272
+4 - Distant 	= 1183.16
+Centroid 3 at node 82: 3 18 20 26 46 48 54 55 58 63 79 80 81 82 87 99 
+1 - Orders 	= 8275
+2 - Customers 	= 26714
+3 - Radius 	= 139.299
+4 - Distant 	= 1384.01
+Centroid 4 at node 64: 4 5 10 21 24 27 34 36 39 45 47 50 64 74 77 89 95 
+1 - Orders 	= 8619
+2 - Customers 	= 28388
+3 - Radius 	= 176.944
+4 - Distant 	= 1566.73
+Centroid 5 at node 14: 9 14 19 23 30 31 33 49 52 56 60 61 66 85 91 98 
+1 - Orders 	= 8168
+2 - Customers 	= 26702
+3 - Radius 	= 145.406
+4 - Distant 	= 1113.13
+Centroid 6 at node 28: 12 15 28 37 40 42 53 57 65 73 75 78 86 92 93 94 96 
+1 - Orders 	= 8769
+2 - Customers 	= 28266
+3 - Radius 	= 172.07
+4 - Distant 	= 1363.94
+7850.95 - 0 - 39.9327
